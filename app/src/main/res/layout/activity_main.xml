@@ -25,10 +25,45 @@
                 <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
                                                                        android:layout_margin="10dp"
                                                                        android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
+                                                                             android:id="@+id/txt_data_sistema"
+                                                                             android:hint="Data da Simulação"
+                                                                             android:inputType="date"
+                                                                             android:enabled="false"
+                                                                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                                                             android:layout_height="wrap_content"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout android:layout_width="match_parent"
+                              android:orientation="horizontal"
+                              android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="250dp"
+                                                                           android:layout_margin="10dp"
+                                                                           android:layout_height="wrap_content">
+                        <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
+                                                                                 android:id="@+id/edt_data_primeiro_pagamento"
+                                                                                 android:hint="Data da Primeira Parcela"
+                                                                                 android:inputType="date"
+                                                                                 android:enabled="false"
+                                                                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                                                                 android:layout_height="wrap_content"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <ImageView android:layout_width="wrap_content"
+                               android:layout_margin="10dp"
+                               android:id="@+id/img_selecionar_data"
+                               android:onClick="selecionarData"
+                               android:src="@drawable/ic_date"
+                               android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                                                                       android:layout_margin="10dp"
+                                                                       android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
                                                                              android:id="@+id/edt_valor_emprestimo"
-                                                                             android:hint="Valor do Emprestimo"
+                                                                             android:hint="Valor do Empréstimo"
                                                                              android:inputType="numberDecimal"
                                                                              android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                                                              android:layout_height="wrap_content"/>
