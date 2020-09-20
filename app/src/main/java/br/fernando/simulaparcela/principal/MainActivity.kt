@@ -1,4 +1,4 @@
-package br.fernando.simulaparcela
+package br.fernando.simulaparcela.principal
 
 
 import android.app.DatePickerDialog
@@ -6,11 +6,18 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import br.fernando.simulaparcela.R
+import br.fernando.simulaparcela.utilitario.MascaraUtilitario
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -29,6 +36,14 @@ class MainActivity : AppCompatActivity() {
     var ano: Int = 0
     lateinit var edtData: Date
 
+    var FORMATAR_NUMERO_CPF = "###.###.###-##"
+    var FORMATAR_NUMERO_CELULAR = "(###)#####-####"
+    var FORMATAR_NUMERO_CEP = "#####-###"
+    var FORMATAR_DATA = "##/##/####"
+    var FORMATAR_HORA = "##:##"
+    var FORMATAR_VALOR_MONETARIO = "R$ #.###.###,##"
+    var FORMATAR_TAXA_JUROS = "#,##%"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -42,11 +57,58 @@ class MainActivity : AppCompatActivity() {
 
         edtData = Date()
 
+//          formatando os campos
+
+//        edt_valor_emprestimo.addTextChangedListener(
+//            mascaraCampo(
+//                edt_valor_emprestimo,
+//                FORMATAR_VALOR_MONETARIO
+//            )
+//        )
+        var ocorrente = ""
+        edt_valor_emprestimo.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val texto = p0.toString()
+
+                if (texto != ocorrente) {
+                    edt_valor_emprestimo.removeTextChangedListener(this)
+
+                    val local = Locale.getDefault()
+
+                    val currency = Currency.getInstance(local)
+                    val limpaTexto: String = texto.replace("[${currency.symbol},.]".toRegex(), "")
+                    var convertida:Double
+                    try {
+                        convertida = limpaTexto.toDouble()
+                    }catch (e:NumberFormatException){
+                        convertida = 0.00
+                    }
+                    val formatador = NumberFormat.getCurrencyInstance(local)
+                    formatador.maximumFractionDigits
+                    val formatada = formatador.format(convertida / 100)
+
+                    ocorrente = formatada
+                    edt_valor_emprestimo.setText(formatada)
+                    edt_valor_emprestimo.setSelection(formatada.length)
+                    edt_valor_emprestimo.addTextChangedListener(this)
+                }
+            }
+
+        })
+
 //        pegando a data atual do sistema
         dataSimulacao = Calendar.getInstance().time
 //        formatando a data
         var dataSimulacaoFormatada = SimpleDateFormat("dd/M/yyyy", Locale.getDefault())
-        txt_data_sistema.setText(dataSimulacaoFormatada.format(dataSimulacao))
+        txt_data_simulacao.setText(dataSimulacaoFormatada.format(dataSimulacao))
 
         ll_resultado.visibility = View.INVISIBLE
 
@@ -75,9 +137,9 @@ class MainActivity : AppCompatActivity() {
                 var handler = Handler()
                 handler.run {
                     diasDeCarencia =
-                        contadorDeDiasCarencia(dataSimulacao, edt_data_primeiro_pagamento.text.toString()).toInt()
-                    if (diasDeCarencia + 1 >= 30) {
-                        if (diasDeCarencia + 1 <= 60) {
+                        contadorDeDiasCarencia(dataSimulacao, edt_data_primeiro_pagamento.text.toString())
+                    if (diasDeCarencia >= 30) {
+                        if (diasDeCarencia <= 60) {
                             taxaJuros = transformaTaxa(edt_taxa_juros.text.toString())
                             valorEmprestimo = tranformaValorEmprestimo(edt_valor_emprestimo.text.toString())
                             qtdeParcelas = transformaParcela(edt_quantidade_parcelas.text.toString())
@@ -101,6 +163,63 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    fun mascaraCampo(editText: EditText, mascara: String): TextWatcher {
+
+        return object : TextWatcher {
+
+            var estaAtualizando: Boolean = false;
+            var textoAntigo: String = "";
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                var str: String = semMascaraCampo(p0.toString())
+
+                var masc = ""
+
+                if (estaAtualizando) {
+                    textoAntigo = str
+                    estaAtualizando = false
+
+                    return
+                }
+                var i = 0
+
+                for (m in mascara.toCharArray()) {
+                    if (m != '#' && str.length > textoAntigo.length) {
+                        masc += m
+                        continue
+                    }
+                    try {
+                        masc += str[i]
+                    } catch (e: Exception) {
+                        break
+                    }
+                    i++
+                }
+                estaAtualizando = true
+                editText.setText(mascara)
+                editText.setSelection(mascara.length)
+
+            }
+        }
+
+    }
+
+
+    fun semMascaraCampo(s: String): String {
+        return s.replace("[.]".toRegex(), "").replace("[-]".toRegex(), "").replace("[/]".toRegex(), "")
+            .replace("[(]".toRegex(), "").replace("[ ]".toRegex(), "").replace("[:]".toRegex(), "")
+            .replace("[)]".toRegex(), "").replace("[R$]".toRegex(), "").replace("[%]".toRegex(), "")
     }
 
     fun selecionarData(view: View) {
@@ -146,7 +265,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun contadorDeDiasCarencia(dataSimulacao: Date, dataPrimeiraParcela: String): Long {
+    fun contadorDeDiasCarencia(dataSimulacao: Date, dataPrimeiraParcela: String): Int {
 
 //        converter o texto em data
         var converterTextoEmData = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -156,7 +275,7 @@ class MainActivity : AppCompatActivity() {
 //            descobrindo a qauntidade de dias
         var diff = TimeUnit.DAYS.convert(diffEmMil, TimeUnit.MILLISECONDS)
 
-        return diff
+        return diff.toInt() + 1
     }
 
     fun arredondar(valor: Double): String {
