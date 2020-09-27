@@ -9,12 +9,9 @@ import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.fernando.simulaparcela.R
-import br.fernando.simulaparcela.utilitario.MascaraUtilitario
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -36,13 +33,6 @@ class MainActivity : AppCompatActivity() {
     var ano: Int = 0
     lateinit var edtData: Date
 
-    var FORMATAR_NUMERO_CPF = "###.###.###-##"
-    var FORMATAR_NUMERO_CELULAR = "(###)#####-####"
-    var FORMATAR_NUMERO_CEP = "#####-###"
-    var FORMATAR_DATA = "##/##/####"
-    var FORMATAR_HORA = "##:##"
-    var FORMATAR_VALOR_MONETARIO = "R$ #.###.###,##"
-    var FORMATAR_TAXA_JUROS = "#,##%"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,71 +47,59 @@ class MainActivity : AppCompatActivity() {
 
         edtData = Date()
 
-//          formatando os campos
-
-//        edt_valor_emprestimo.addTextChangedListener(
-//            mascaraCampo(
-//                edt_valor_emprestimo,
-//                FORMATAR_VALOR_MONETARIO
-//            )
-//        )
-        var ocorrente = ""
         edt_valor_emprestimo.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
+            var textoAtual: String = ""
+            override fun afterTextChanged(p0: Editable?) {}
 
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                val texto = p0.toString()
-
-                if (texto != ocorrente) {
+//                    COMPARANDO OS TEXTOS SE HA DIFERENCA
+                if (p0.toString().compareTo(textoAtual) != 0) {
+//                    REMOVENDO A ESCUTA DO METODO
                     edt_valor_emprestimo.removeTextChangedListener(this)
-
+//                    PEGANDO O LOCAL
                     val local = Locale.getDefault()
-
+//                        DEFININDO LOCAL PADRAO DA MOEDA
                     val currency = Currency.getInstance(local)
-                    val limpaTexto: String = texto.replace("[${currency.symbol},.]".toRegex(), "")
-                    var convertida:Double
-                    try {
-                        convertida = limpaTexto.toDouble()
-                    }catch (e:NumberFormatException){
-                        convertida = 0.00
-                    }
-                    val formatador = NumberFormat.getCurrencyInstance(local)
-                    formatador.maximumFractionDigits
-                    val formatada = formatador.format(convertida / 100)
+//                    RETIRANDO FORMATACAO DO TEXTO
+                    var textoSemFormatacao: String = p0.toString().replace("[${currency.symbol},.]".toRegex(), "")
+//                    CONVERTENDO TEXTO EM UM TIPO DOUBLE
+//                    RETIRANDO OS ESPACOS DO INICIO DA STRING
+                    var textoParaDecimal = textoSemFormatacao.trim().toDouble()
+//                    FORMANTANDO TEXTO EM ESTILO MOEDA
+                    var textoFormatado = NumberFormat.getCurrencyInstance().format(textoParaDecimal / 100)
 
-                    ocorrente = formatada
-                    edt_valor_emprestimo.setText(formatada)
-                    edt_valor_emprestimo.setSelection(formatada.length)
+                    textoAtual = textoFormatado
+//                    SETANDO O TEXTO FORMATADO
+                    edt_valor_emprestimo.setText(textoAtual)
+//                    COLOCANDO O CURSOR NO FINAL DO TEXTO
+                    edt_valor_emprestimo.setSelection(textoAtual.length)
+//                        CHAMANDO A ESCUTA NO METODO PRINCIPAL
                     edt_valor_emprestimo.addTextChangedListener(this)
                 }
             }
 
         })
 
+
 //        pegando a data atual do sistema
         dataSimulacao = Calendar.getInstance().time
-//        formatando a data
+        //        formatando a data
         var dataSimulacaoFormatada = SimpleDateFormat("dd/M/yyyy", Locale.getDefault())
         txt_data_simulacao.setText(dataSimulacaoFormatada.format(dataSimulacao))
 
         ll_resultado.visibility = View.INVISIBLE
 
         btn_limpar.setOnClickListener {
-
             ll_resultado.visibility = View.INVISIBLE
 
             edt_data_primeiro_pagamento.setText("")
+            edt_valor_emprestimo.setText("0,00")
             edt_quantidade_parcelas.setText("")
             edt_taxa_juros.setText("")
-            edt_valor_emprestimo.setText("")
-        }
 
+        }
 
         btn_calcular.setOnClickListener {
             if (edt_data_primeiro_pagamento.text!!.isEmpty()) {
@@ -154,7 +132,8 @@ class MainActivity : AppCompatActivity() {
 
                             txt_valor_total.setText(arredondar(valorTotal))
                         } else {
-                            Toast.makeText(this@MainActivity, "Carencia maior que 60 dias.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@MainActivity, "Carencia maior que 60 dias.", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     } else {
                         Toast.makeText(this@MainActivity, "Carencia menor que 30 dias.", Toast.LENGTH_SHORT).show()
@@ -162,65 +141,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
-    fun mascaraCampo(editText: EditText, mascara: String): TextWatcher {
-
-        return object : TextWatcher {
-
-            var estaAtualizando: Boolean = false;
-            var textoAntigo: String = "";
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                var str: String = semMascaraCampo(p0.toString())
-
-                var masc = ""
-
-                if (estaAtualizando) {
-                    textoAntigo = str
-                    estaAtualizando = false
-
-                    return
-                }
-                var i = 0
-
-                for (m in mascara.toCharArray()) {
-                    if (m != '#' && str.length > textoAntigo.length) {
-                        masc += m
-                        continue
-                    }
-                    try {
-                        masc += str[i]
-                    } catch (e: Exception) {
-                        break
-                    }
-                    i++
-                }
-                estaAtualizando = true
-                editText.setText(mascara)
-                editText.setSelection(mascara.length)
-
-            }
-        }
-
-    }
-
-
-    fun semMascaraCampo(s: String): String {
-        return s.replace("[.]".toRegex(), "").replace("[-]".toRegex(), "").replace("[/]".toRegex(), "")
-            .replace("[(]".toRegex(), "").replace("[ ]".toRegex(), "").replace("[:]".toRegex(), "")
-            .replace("[)]".toRegex(), "").replace("[R$]".toRegex(), "").replace("[%]".toRegex(), "")
-    }
 
     fun selecionarData(view: View) {
         showDialog(view.id)
@@ -241,7 +163,8 @@ class MainActivity : AppCompatActivity() {
         return null
     }
 
-    private val dataListener =
+    private
+    val dataListener =
         OnDateSetListener { view, anoSelecionado, mesSelecionado, diaSelecionado ->
             ano = anoSelecionado
             mes = mesSelecionado
@@ -250,7 +173,11 @@ class MainActivity : AppCompatActivity() {
             AtualizarData()
         }
 
-    private fun criarData(anoSelecionado: Int, mesSelecionado: Int, diaSelecionado: Int): Date {
+    private fun criarData(
+        anoSelecionado: Int,
+        mesSelecionado: Int,
+        diaSelecionado: Int
+    ): Date {
         val calendar = Calendar.getInstance()
         calendar[anoSelecionado, mesSelecionado] = diaSelecionado
         return calendar.time
@@ -314,8 +241,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun tranformaValorEmprestimo(valor: String): Double {
-        var v = valor.toDouble()
-        return v
+//        PEGANDO O LOCAL
+        val local = Locale.getDefault()
+//                        DEFININDO LOCAL PADRAO DA MOEDA
+        val currency = Currency.getInstance(local)
+//                    RETIRANDO FORMATACAO DO TEXTO
+        var textoSemFormatacao: String = valor.replace("[${currency.symbol},.]".toRegex(), "")
+//                    CONVERTENDO TEXTO EM UM TIPO DOUBLE
+//                    RETIRANDO OS ESPACOS DO INICIO DA STRING
+        var textoParaDecimal = textoSemFormatacao.trim().toDouble()/100
+
+        return textoParaDecimal
     }
 
 
