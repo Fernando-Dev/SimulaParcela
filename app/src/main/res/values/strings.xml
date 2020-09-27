@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Simula Parcela</string>
+    <string name="campo_obrigatorio">CAMPO OBRIGATÓRIO</string>
 </resources>

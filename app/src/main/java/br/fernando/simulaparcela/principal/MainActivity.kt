@@ -7,11 +7,13 @@ import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
+import android.text.Layout
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.fernando.simulaparcela.R
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -31,6 +33,8 @@ class MainActivity : AppCompatActivity() {
     var dia: Int = 0
     var mes: Int = 0
     var ano: Int = 0
+    val trintaDias = 30
+    val sessentaDias = 60
     lateinit var edtData: Date
 
 
@@ -81,7 +85,18 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
+//            verifica se o campo esta selecionado
+        edt_taxa_juros.setOnFocusChangeListener(View.OnFocusChangeListener() { view: View?, b: Boolean ->
+            //            se o campo estiver selecionado
+            if (b) {
+//                exibe mensagem embaixo do campo
+                til_layout_taxa.setError("Digite a taxa com ponto, Ex.: 2.75")
+            } else {
+//                em caso negativo apaga mensagem embaixo
+                til_layout_taxa.setError(null)
+                til_layout_taxa.isErrorEnabled = false
+            }
+        })
 
 //        pegando a data atual do sistema
         dataSimulacao = Calendar.getInstance().time
@@ -102,22 +117,26 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_calcular.setOnClickListener {
+            var texto = edt_valor_emprestimo.text.toString()
+            texto = texto.replace("[R$]".toRegex(), "").trim()
             if (edt_data_primeiro_pagamento.text!!.isEmpty()) {
-                Toast.makeText(this, "Data da primeira parcela está vazio!", Toast.LENGTH_SHORT).show()
-            } else if (edt_valor_emprestimo.text!!.isEmpty()) {
-                Toast.makeText(this, "Valor do empréstimo está vazio!", Toast.LENGTH_SHORT).show()
+                Snackbar.make(layout_principal, "DATA DA PRIMEIRA PARCELA ESTÁ VAZIA", Snackbar.LENGTH_LONG).show()
+            } else if (texto.isEmpty()) {
+                Snackbar.make(layout_principal, "VALOR DO EMPRÉSTIMO ESTÁ VAZIO", Snackbar.LENGTH_LONG).show()
+            } else if (texto.compareTo("0,00") == 0) {
+                Snackbar.make(layout_principal, "VALOR DO EMPRÉSTIMO ESTÁ VAZIO", Snackbar.LENGTH_LONG).show()
             } else if (edt_quantidade_parcelas.text!!.isEmpty()) {
-                Toast.makeText(this, "Quantidade de parcelas está vazio!", Toast.LENGTH_SHORT).show()
+                Snackbar.make(layout_principal, "QUANTIDADE DE PARCELAS ESTÁ VAZIO", Snackbar.LENGTH_LONG).show()
             } else if (edt_taxa_juros.text!!.isEmpty()) {
-                Toast.makeText(this, "Taxa de juros está vazio!", Toast.LENGTH_SHORT).show()
+                Snackbar.make(layout_principal, "TAXA DE JUROS ESTÁ VAZIO", Snackbar.LENGTH_LONG).show()
             } else {
 
                 var handler = Handler()
                 handler.run {
                     diasDeCarencia =
                         contadorDeDiasCarencia(dataSimulacao, edt_data_primeiro_pagamento.text.toString())
-                    if (diasDeCarencia >= 30) {
-                        if (diasDeCarencia <= 60) {
+                    if (diasDeCarencia >= trintaDias) {
+                        if (diasDeCarencia <= sessentaDias) {
                             taxaJuros = transformaTaxa(edt_taxa_juros.text.toString())
                             valorEmprestimo = tranformaValorEmprestimo(edt_valor_emprestimo.text.toString())
                             qtdeParcelas = transformaParcela(edt_quantidade_parcelas.text.toString())
@@ -132,11 +151,10 @@ class MainActivity : AppCompatActivity() {
 
                             txt_valor_total.setText(arredondar(valorTotal))
                         } else {
-                            Toast.makeText(this@MainActivity, "Carencia maior que 60 dias.", Toast.LENGTH_SHORT)
-                                .show()
+                            Snackbar.make(layout_principal, "CARÊNCIA MAIOR QUE 60 DIAS", Snackbar.LENGTH_LONG).show()
                         }
                     } else {
-                        Toast.makeText(this@MainActivity, "Carencia menor que 30 dias.", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(layout_principal, "CARÊNCIA MENOR QUE 30 DIAS", Snackbar.LENGTH_LONG).show()
                     }
                 }
             }
@@ -249,7 +267,7 @@ class MainActivity : AppCompatActivity() {
         var textoSemFormatacao: String = valor.replace("[${currency.symbol},.]".toRegex(), "")
 //                    CONVERTENDO TEXTO EM UM TIPO DOUBLE
 //                    RETIRANDO OS ESPACOS DO INICIO DA STRING
-        var textoParaDecimal = textoSemFormatacao.trim().toDouble()/100
+        var textoParaDecimal = textoSemFormatacao.trim().toDouble() / 100
 
         return textoParaDecimal
     }
