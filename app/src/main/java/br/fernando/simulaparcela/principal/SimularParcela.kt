@@ -13,6 +13,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.fernando.simulaparcela.R
+import br.fernando.simulaparcela.utilitario.TaxaJurosGrupo
+import br.fernando.simulaparcela.utilitario.TaxaJurosIndividual
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DecimalFormat
@@ -23,10 +25,12 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.pow
 
 
-class MainActivity : AppCompatActivity() {
+class SimularParcela : AppCompatActivity() {
     var taxaJuros = 0.0
+    var tac = 0.03
     var valorEmprestimo = 0.0
     var qtdeParcelas = 0
+    var qtdeDiasOPeracao = 0
     var valorTotal = 0.0
     lateinit var dataSimulacao: Date
     var diasDeCarencia: Int = 0
@@ -36,18 +40,20 @@ class MainActivity : AppCompatActivity() {
     val trintaDias = 30
     val sessentaDias = 60
     lateinit var edtData: Date
-
+    lateinit var taxaJurosGrupo: TaxaJurosGrupo
+    lateinit var taxaJurosIndividual: TaxaJurosIndividual
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        taxaJurosGrupo = TaxaJurosGrupo(this)
+        taxaJurosIndividual = TaxaJurosIndividual(this)
 
         val calendar = Calendar.getInstance()
         ano = calendar[Calendar.YEAR]
         mes = calendar[Calendar.MONTH]
         dia = calendar[Calendar.DAY_OF_MONTH]
-
 
         edtData = Date()
 
@@ -85,18 +91,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-//            verifica se o campo esta selecionado
-        edt_taxa_juros.setOnFocusChangeListener(View.OnFocusChangeListener() { view: View?, b: Boolean ->
-            //            se o campo estiver selecionado
-            if (b) {
-//                exibe mensagem embaixo do campo
-                til_layout_taxa.setError("Digite a taxa com ponto, Ex.: 2.75")
-            } else {
-//                em caso negativo apaga mensagem embaixo
-                til_layout_taxa.setError(null)
-                til_layout_taxa.isErrorEnabled = false
-            }
-        })
 
 //        pegando a data atual do sistema
         dataSimulacao = Calendar.getInstance().time
@@ -112,7 +106,6 @@ class MainActivity : AppCompatActivity() {
             edt_data_primeiro_pagamento.setText("")
             edt_valor_emprestimo.setText("0,00")
             edt_quantidade_parcelas.setText("")
-            edt_taxa_juros.setText("")
 
         }
 
@@ -127,8 +120,6 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(layout_principal, "VALOR DO EMPRÉSTIMO ESTÁ VAZIO", Snackbar.LENGTH_LONG).show()
             } else if (edt_quantidade_parcelas.text!!.isEmpty()) {
                 Snackbar.make(layout_principal, "QUANTIDADE DE PARCELAS ESTÁ VAZIO", Snackbar.LENGTH_LONG).show()
-            } else if (edt_taxa_juros.text!!.isEmpty()) {
-                Snackbar.make(layout_principal, "TAXA DE JUROS ESTÁ VAZIO", Snackbar.LENGTH_LONG).show()
             } else {
 
                 var handler = Handler()
@@ -137,19 +128,38 @@ class MainActivity : AppCompatActivity() {
                         contadorDeDiasCarencia(dataSimulacao, edt_data_primeiro_pagamento.text.toString())
                     if (diasDeCarencia >= trintaDias) {
                         if (diasDeCarencia <= sessentaDias) {
-                            taxaJuros = transformaTaxa(edt_taxa_juros.text.toString())
-                            valorEmprestimo = tranformaValorEmprestimo(edt_valor_emprestimo.text.toString())
-                            qtdeParcelas = transformaParcela(edt_quantidade_parcelas.text.toString())
+                            if (radio_button_grupo.isChecked) {
+                                taxaJuros = taxaJurosGrupo.buscarTaxa(diasDeCarencia)
+                                taxaJuros = transformaTaxa(taxaJuros)
+                                valorEmprestimo = tranformaValorEmprestimo(edt_valor_emprestimo.text.toString())
+                                qtdeDiasOPeracao = transformaParcela(edt_quantidade_parcelas.text.toString())
+                                qtdeParcelas = edt_quantidade_parcelas.text.toString().toInt()
+                                valorTotal = fazerCalculoTotal(taxaJuros, qtdeDiasOPeracao, valorEmprestimo)
 
-                            valorTotal = fazerCalculoTotal(taxaJuros, qtdeParcelas, valorEmprestimo)
+                                ll_resultado.visibility = View.VISIBLE
 
-                            ll_resultado.visibility = View.VISIBLE
+                                txt_valor_juros.setText(arredondar(fazerCalculoJuros(valorTotal, valorEmprestimo)))
 
-                            txt_valor_juros.setText(arredondar(fazerCalculoJuros(valorTotal, valorEmprestimo)))
+                                txt_valor_parcela.setText(arredondar(fazerCalculoParcela(valorTotal, qtdeParcelas)))
 
-                            txt_valor_parcela.setText(arredondar(fazerCalculoParcela(valorTotal, qtdeParcelas)))
+                                txt_valor_total.setText(arredondar(valorTotal))
+                            } else if (radio_button_individual.isChecked) {
+                                taxaJuros = taxaJurosIndividual.buscarTaxa(diasDeCarencia)
+                                taxaJuros = transformaTaxa(taxaJuros)
+                                valorEmprestimo = tranformaValorEmprestimo(edt_valor_emprestimo.text.toString())
+                                qtdeDiasOPeracao = transformaParcela(edt_quantidade_parcelas.text.toString())
+                                qtdeParcelas = edt_quantidade_parcelas.text.toString().toInt()
 
-                            txt_valor_total.setText(arredondar(valorTotal))
+                                valorTotal = fazerCalculoTotal(taxaJuros, qtdeDiasOPeracao, valorEmprestimo)
+
+                                ll_resultado.visibility = View.VISIBLE
+
+                                txt_valor_juros.setText(arredondar(fazerCalculoJuros(valorTotal, valorEmprestimo)))
+
+                                txt_valor_parcela.setText(arredondar(fazerCalculoParcela(valorTotal, qtdeParcelas)))
+
+                                txt_valor_total.setText(arredondar(valorTotal))
+                            }
                         } else {
                             Snackbar.make(layout_principal, "CARÊNCIA MAIOR QUE 60 DIAS", Snackbar.LENGTH_LONG).show()
                         }
@@ -240,21 +250,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun fazerCalculoTotal(taxa: Double, parcelas: Int, valor: Double): Double {
-
+        var valorNovo = valor * tac
+        valorNovo = valor + valorNovo
         var adicao = 1 + taxa
         var potenciacao = adicao.pow(parcelas)
-        var resultadoTotal = valor * potenciacao
+        var resultadoTotal = valorNovo * potenciacao
 
         return resultadoTotal
     }
 
-    fun transformaTaxa(taxa: String): Double {
-        val taxaResultante = taxa.toDouble() / 100
+    fun transformaTaxa(taxa: Double): Double {
+        var taxaResultante = taxa / 100
+        taxaResultante = taxaResultante / 30
         return taxaResultante;
     }
 
     fun transformaParcela(parcela: String): Int {
         var p = parcela.toInt()
+        p = p * trintaDias
+        p = p + diasDeCarencia
         return p
     }
 

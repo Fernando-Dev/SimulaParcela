@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Simula Parcela</string>
     <string name="campo_obrigatorio">CAMPO OBRIGATÓRIO</string>
+    <string name="radio_grupo">Grupo</string>
+    <string name="radio_individual">Individual</string>
 
 </resources>

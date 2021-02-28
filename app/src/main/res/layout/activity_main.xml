@@ -8,7 +8,7 @@
         android:orientation="vertical"
         android:background="#dfdfdf"
         android:layout_height="match_parent"
-        tools:context=".principal.MainActivity">
+        tools:context=".principal.SimularParcela">
 
     <LinearLayout android:layout_width="match_parent"
                   android:orientation="vertical"
@@ -35,6 +35,30 @@
                                                                              android:layout_height="wrap_content"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
+                <RadioGroup android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:id="@+id/radio_group"
+                            android:layout_margin="10dp"
+                            android:layout_height="wrap_content">
+
+                    <RadioButton android:layout_width="wrap_content"
+                                 android:id="@+id/radio_button_grupo"
+                                 android:layout_margin="10dp"
+                                 android:layout_marginEnd="10dp"
+                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                 android:text="@string/radio_grupo"
+                                 android:checked="true"
+                                 android:layout_height="wrap_content"/>
+                    <RadioButton android:layout_width="wrap_content"
+                                 android:text="@string/radio_individual"
+                                 android:layout_margin="10dp"
+                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                 android:id="@+id/radio_button_individual"
+                                 android:layout_height="wrap_content"/>
+
+
+                </RadioGroup>
                 <LinearLayout android:layout_width="match_parent"
                               android:orientation="horizontal"
                               android:layout_height="wrap_content">
@@ -64,6 +88,8 @@
                                android:src="@drawable/ic_date"
                                android:layout_height="wrap_content"/>
                 </LinearLayout>
+
+
 
                 <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
                                                                        android:layout_margin="10dp"
@@ -100,25 +126,6 @@
                                                                              android:layout_height="wrap_content"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
-                                                                       android:id="@+id/til_layout_taxa"
-                                                                       android:layout_margin="10dp"
-                                                                       app:errorEnabled="true"
-                                                                       app:counterMaxLength="4"
-                                                                       app:counterEnabled="true"
-                                                                       app:errorTextColor="@color/colorAccent"
-                                                                       app:errorTextAppearance="@style/TextAppearance.AppCompat.Small"
-                                                                       android:layout_height="wrap_content">
-
-                    <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
-                                                                             android:id="@+id/edt_taxa_juros"
-                                                                             android:hint="Taxa de Juros"
-                                                                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                                                                             android:inputType="numberDecimal"
-                                                                             android:maxLength="4"
-                                                                             android:layout_height="wrap_content"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
                 <Button android:layout_width="match_parent"
                         android:layout_gravity="center"
                         android:background="@color/colorPrimary"
@@ -143,7 +150,6 @@
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="30dp"
                         android:layout_marginBottom="15dp"
-
                         android:layout_height="wrap_content"/>
 
 
@@ -168,17 +174,57 @@
                           android:orientation="horizontal"
                           android:layout_height="wrap_content">
                 <TextView android:layout_width="wrap_content"
-                          android:text="Valor do Juros:"
+                          android:text="Empréstimo:"
                           android:padding="10dp"
                           android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                           android:layout_height="wrap_content"/>
                 <TextView android:layout_width="wrap_content"
-                          android:id="@+id/txt_valor_juros"
+                          android:id="@+id/txt_valor_emprestimo"
                           android:padding="10dp"
                           android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                           android:layout_height="wrap_content"/>
-
-
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="horizontal"
+                          android:layout_height="wrap_content">
+                <TextView android:layout_width="wrap_content"
+                          android:text="Primeira Parcela:"
+                          android:padding="10dp"
+                          android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                          android:layout_height="wrap_content"/>
+                <TextView android:layout_width="wrap_content"
+                          android:id="@+id/txt_vencimento"
+                          android:padding="10dp"
+                          android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                          android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="horizontal"
+                          android:layout_height="wrap_content">
+                <TextView android:layout_width="wrap_content"
+                          android:text="Carencia:"
+                          android:padding="10dp"
+                          android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                          android:layout_height="wrap_content"/>
+                <TextView android:layout_width="wrap_content"
+                          android:id="@+id/txt_carencia"
+                          android:padding="10dp"
+                          android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                          android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="horizontal"
+                          android:layout_height="wrap_content">
+                <TextView android:layout_width="wrap_content"
+                          android:text="Qtde de Parcelas:"
+                          android:padding="10dp"
+                          android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                          android:layout_height="wrap_content"/>
+                <TextView android:layout_width="wrap_content"
+                          android:id="@+id/txt_qtde_parcela"
+                          android:padding="10dp"
+                          android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                          android:layout_height="wrap_content"/>
             </LinearLayout>
             <LinearLayout android:layout_width="match_parent"
                           android:orientation="horizontal"
@@ -194,6 +240,7 @@
                           android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                           android:layout_height="wrap_content"/>
             </LinearLayout>
+
             <LinearLayout android:layout_width="match_parent"
                           android:orientation="horizontal"
                           android:layout_height="wrap_content">
@@ -208,6 +255,17 @@
                           android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                           android:layout_height="wrap_content"/>
             </LinearLayout>
+            <Button android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/colorPrimary"
+                    android:id="@+id/btn_copiar_texto"
+                    android:text="Copiar Texto"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:selectableItemBackground"
+                    android:textColor="@android:color/white"
+                    android:layout_margin="30dp"
+                    android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
