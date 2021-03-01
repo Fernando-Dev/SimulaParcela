@@ -4,19 +4,25 @@ package br.fernando.simulaparcela.principal
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.Layout
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.size
 import br.fernando.simulaparcela.R
 import br.fernando.simulaparcela.utilitario.TaxaJurosGrupo
 import br.fernando.simulaparcela.utilitario.TaxaJurosIndividual
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_parcela_resultado.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -26,6 +32,7 @@ import kotlin.math.pow
 
 
 class SimularParcela : AppCompatActivity() {
+    lateinit var containerResultado: LinearLayout
     var taxaJuros = 0.0
     var tac = 0.03
     var valorEmprestimo = 0.0
@@ -49,6 +56,8 @@ class SimularParcela : AppCompatActivity() {
 
         taxaJurosGrupo = TaxaJurosGrupo(this)
         taxaJurosIndividual = TaxaJurosIndividual(this)
+
+        containerResultado = findViewById(R.id.ll_resultado)
 
         val calendar = Calendar.getInstance()
         ano = calendar[Calendar.YEAR]
@@ -98,14 +107,15 @@ class SimularParcela : AppCompatActivity() {
         var dataSimulacaoFormatada = SimpleDateFormat("dd/M/yyyy", Locale.getDefault())
         txt_data_simulacao.setText(dataSimulacaoFormatada.format(dataSimulacao))
 
-        ll_resultado.visibility = View.INVISIBLE
+
 
         btn_limpar.setOnClickListener {
-            ll_resultado.visibility = View.INVISIBLE
 
             edt_data_primeiro_pagamento.setText("")
             edt_valor_emprestimo.setText("0,00")
             edt_quantidade_parcelas.setText("")
+
+            containerResultado.removeAllViews()
 
         }
 
@@ -124,6 +134,8 @@ class SimularParcela : AppCompatActivity() {
 
                 var handler = Handler()
                 handler.run {
+
+                    containerResultado.removeAllViews()
                     diasDeCarencia =
                         contadorDeDiasCarencia(dataSimulacao, edt_data_primeiro_pagamento.text.toString())
                     if (diasDeCarencia >= trintaDias) {
@@ -136,13 +148,38 @@ class SimularParcela : AppCompatActivity() {
                                 qtdeParcelas = edt_quantidade_parcelas.text.toString().toInt()
                                 valorTotal = fazerCalculoTotal(taxaJuros, qtdeDiasOPeracao, valorEmprestimo)
 
-                                ll_resultado.visibility = View.VISIBLE
+//                              layout inflado dinamicamente
+                                var inflater: LayoutInflater = LayoutInflater.from(applicationContext)
 
-                                txt_valor_juros.setText(arredondar(fazerCalculoJuros(valorTotal, valorEmprestimo)))
+                                var linhaResultado: View =
+                                    inflater.inflate(R.layout.item_parcela_resultado, containerResultado, false)
 
-                                txt_valor_parcela.setText(arredondar(fazerCalculoParcela(valorTotal, qtdeParcelas)))
+                                var txtValorEmprestimo = linhaResultado.findViewById<TextView>(R.id.txt_valor_emprestimo)
 
-                                txt_valor_total.setText(arredondar(valorTotal))
+                                txtValorEmprestimo.setText(arredondar(valorEmprestimo))
+
+                                var txtVencimento = linhaResultado.findViewById<TextView>(R.id.txt_vencimento)
+
+                                txtVencimento.setText(edt_data_primeiro_pagamento.text.toString())
+
+                                var txtCarencia = linhaResultado.findViewById<TextView>(R.id.txt_carencia)
+
+                                txtCarencia.setText(diasDeCarencia.toString() + " dias")
+
+                                var txtQtdeParcela = linhaResultado.findViewById<TextView>(R.id.txt_qtde_parcela)
+
+                                txtQtdeParcela.setText(qtdeParcelas.toString())
+
+                                var txtValorParcela = linhaResultado.findViewById<TextView>(R.id.txt_valor_parcela)
+
+                                txtValorParcela.setText(arredondar(fazerCalculoParcela(valorTotal, qtdeParcelas)))
+
+                                var txtValorTotal = linhaResultado.findViewById<TextView>(R.id.txt_valor_total)
+
+                                txtValorTotal.setText(arredondar(valorTotal))
+
+                                containerResultado.addView(linhaResultado)
+
                             } else if (radio_button_individual.isChecked) {
                                 taxaJuros = taxaJurosIndividual.buscarTaxa(diasDeCarencia)
                                 taxaJuros = transformaTaxa(taxaJuros)
@@ -152,13 +189,37 @@ class SimularParcela : AppCompatActivity() {
 
                                 valorTotal = fazerCalculoTotal(taxaJuros, qtdeDiasOPeracao, valorEmprestimo)
 
-                                ll_resultado.visibility = View.VISIBLE
+                                //     layout inflado dinamicamente
+                                var inflater: LayoutInflater = LayoutInflater.from(applicationContext)
 
-                                txt_valor_juros.setText(arredondar(fazerCalculoJuros(valorTotal, valorEmprestimo)))
+                                var linhaResultado: View =
+                                    inflater.inflate(R.layout.item_parcela_resultado, containerResultado, false)
 
-                                txt_valor_parcela.setText(arredondar(fazerCalculoParcela(valorTotal, qtdeParcelas)))
+                                var txtValorEmprestimo = linhaResultado.findViewById<TextView>(R.id.txt_valor_emprestimo)
 
-                                txt_valor_total.setText(arredondar(valorTotal))
+                                txtValorEmprestimo.setText(arredondar(valorEmprestimo))
+
+                                var txtVencimento = linhaResultado.findViewById<TextView>(R.id.txt_vencimento)
+
+                                txtVencimento.setText(edt_data_primeiro_pagamento.text.toString())
+
+                                var txtCarencia = linhaResultado.findViewById<TextView>(R.id.txt_carencia)
+
+                                txtCarencia.setText(diasDeCarencia.toString() + " dias")
+
+                                var txtQtdeParcela = linhaResultado.findViewById<TextView>(R.id.txt_qtde_parcela)
+
+                                txtQtdeParcela.setText(qtdeParcelas.toString())
+
+                                var txtValorParcela = linhaResultado.findViewById<TextView>(R.id.txt_valor_parcela)
+
+                                txtValorParcela.setText(arredondar(fazerCalculoParcela(valorTotal, qtdeParcelas)))
+
+                                var txtValorTotal = linhaResultado.findViewById<TextView>(R.id.txt_valor_total)
+
+                                txtValorTotal.setText(arredondar(valorTotal))
+
+                                containerResultado.addView(linhaResultado)
                             }
                         } else {
                             Snackbar.make(layout_principal, "CARÊNCIA MAIOR QUE 60 DIAS", Snackbar.LENGTH_LONG).show()
