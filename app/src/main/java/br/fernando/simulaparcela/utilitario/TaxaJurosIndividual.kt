@@ -1,6 +1,7 @@
 package br.fernando.simulaparcela.utilitario
 
 import android.content.Context
+import br.fernando.simulaparcela.principal.FirstFragment
 
 data class TaxaJurosIndividual(var context: Context) {
 
