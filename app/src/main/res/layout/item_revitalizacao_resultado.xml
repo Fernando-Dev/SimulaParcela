@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <TextView android:layout_width="wrap_content"
+              android:text="Resultado"
+              android:padding="10dp"
+              android:textAppearance="@style/TextAppearance.AppCompat.Large"
+              android:layout_gravity="center"
+              android:layout_height="wrap_content"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_margin="10dp"
+                  android:gravity="center"
+                  android:layout_height="wrap_content">
+        <TextView android:layout_width="@dimen/dimen_field_value"
+                  android:text="Nome"
+                  android:padding="10dp"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:layout_height="wrap_content"/>
+        <TextView android:layout_width="@dimen/dimen_field_value"
+                  android:text="Saldo Devedor"
+                  android:padding="10dp"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_margin="10dp"
+                  android:gravity="center"
+                  android:layout_height="wrap_content">
+        <TextView android:layout_width="@dimen/dimen_field_value"
+                  android:padding="10dp"
+                  android:id="@+id/txt_res_revit_nome_a"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                  android:layout_height="wrap_content"/>
+        <TextView android:layout_width="@dimen/dimen_field_value"
+                  android:padding="10dp"
+                  android:id="@+id/txt_res_revit_valor_a"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                  android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_margin="10dp"
+                  android:gravity="center"
+                  android:layout_height="wrap_content">
+        <TextView android:layout_width="@dimen/dimen_field_value"
+                  android:padding="10dp"
+                  android:id="@+id/txt_res_revit_nome_b"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                  android:layout_height="wrap_content"/>
+        <TextView android:layout_width="@dimen/dimen_field_value"
+                  android:padding="10dp"
+                  android:id="@+id/txt_res_revit_valor_b"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                  android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_margin="10dp"
+                  android:gravity="center"
+                  android:layout_height="wrap_content">
+        <TextView android:layout_width="@dimen/dimen_field_value"
+                  android:padding="10dp"
+                  android:id="@+id/txt_res_revit_nome_c"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                  android:layout_height="wrap_content"/>
+        <TextView android:layout_width="@dimen/dimen_field_value"
+                  android:padding="10dp"
+                  android:id="@+id/txt_res_revit_valor_c"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                  android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_margin="10dp"
+                  android:gravity="center"
+                  android:layout_height="wrap_content">
+        <TextView android:layout_width="@dimen/dimen_field_value"
+                  android:padding="10dp"
+                  android:id="@+id/txt_res_revit_nome_d"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                  android:layout_height="wrap_content"/>
+        <TextView android:layout_width="@dimen/dimen_field_value"
+                  android:padding="10dp"
+                  android:id="@+id/txt_res_revit_valor_d"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                  android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_margin="10dp"
+                  android:layout_height="wrap_content">
+        <TextView android:layout_width="wrap_content"
+                  android:text="Valor Total:"
+                  android:padding="10dp"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:layout_height="wrap_content"/>
+        <TextView android:layout_width="wrap_content"
+                  android:id="@+id/txt_res_revit_valor_total"
+                  android:padding="10dp"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>
