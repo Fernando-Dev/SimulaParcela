@@ -8,16 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.getSystemService
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import br.fernando.simulaparcela.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_first.*
+import kotlinx.android.synthetic.main.fragment_first.layout_principal
+import kotlinx.android.synthetic.main.fragment_three.*
+import org.w3c.dom.Text
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
@@ -25,8 +26,9 @@ import java.util.*
 class ThreeFragment : Fragment() {
 
     var textoAtual: String = ""
-    val valorDeCampoVazio = 10.0
     lateinit var containerResultado: LinearLayout
+
+    lateinit var containerLinhaValores: LinearLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val threeView = inflater.inflate(R.layout.fragment_three, container, false)
@@ -63,12 +65,12 @@ class ThreeFragment : Fragment() {
 //                        DEFININDO LOCAL PADRAO DA MOEDA
                     val currency = Currency.getInstance(local)
 //                    RETIRANDO FORMATACAO DO TEXTO
-                    var textoSemFormatacao: String = p0.toString().replace("[${currency.symbol},.]".toRegex(), "")
+                    val textoSemFormatacao: String = p0.toString().replace("[${currency.symbol},.]".toRegex(), "")
 //                    CONVERTENDO TEXTO EM UM TIPO DOUBLE
 //                    RETIRANDO OS ESPACOS DO INICIO DA STRING
-                    var textoParaDecimal = textoSemFormatacao.trim().toDouble()
+                    val textoParaDecimal = textoSemFormatacao.trim().toDouble()
 //                    FORMANTANDO TEXTO EM ESTILO MOEDA
-                    var textoFormatado = NumberFormat.getCurrencyInstance().format(textoParaDecimal / 100)
+                    val textoFormatado = NumberFormat.getCurrencyInstance().format(textoParaDecimal / 100)
 
                     textoAtual = textoFormatado
 //                    SETANDO O TEXTO FORMATADO
@@ -100,12 +102,12 @@ class ThreeFragment : Fragment() {
 //                        DEFININDO LOCAL PADRAO DA MOEDA
                     val currency = Currency.getInstance(local)
 //                    RETIRANDO FORMATACAO DO TEXTO
-                    var textoSemFormatacao: String = p0.toString().replace("[${currency.symbol},.]".toRegex(), "")
+                    val textoSemFormatacao: String = p0.toString().replace("[${currency.symbol},.]".toRegex(), "")
 //                    CONVERTENDO TEXTO EM UM TIPO DOUBLE
 //                    RETIRANDO OS ESPACOS DO INICIO DA STRING
-                    var textoParaDecimal = textoSemFormatacao.trim().toDouble()
+                    val textoParaDecimal = textoSemFormatacao.trim().toDouble()
 //                    FORMANTANDO TEXTO EM ESTILO MOEDA
-                    var textoFormatado = NumberFormat.getCurrencyInstance().format(textoParaDecimal / 100)
+                    val textoFormatado = NumberFormat.getCurrencyInstance().format(textoParaDecimal / 100)
 
                     textoAtual = textoFormatado
 //                    SETANDO O TEXTO FORMATADO
@@ -137,12 +139,12 @@ class ThreeFragment : Fragment() {
 //                        DEFININDO LOCAL PADRAO DA MOEDA
                     val currency = Currency.getInstance(local)
 //                    RETIRANDO FORMATACAO DO TEXTO
-                    var textoSemFormatacao: String = p0.toString().replace("[${currency.symbol},.]".toRegex(), "")
+                    val textoSemFormatacao: String = p0.toString().replace("[${currency.symbol},.]".toRegex(), "")
 //                    CONVERTENDO TEXTO EM UM TIPO DOUBLE
 //                    RETIRANDO OS ESPACOS DO INICIO DA STRING
-                    var textoParaDecimal = textoSemFormatacao.trim().toDouble()
+                    val textoParaDecimal = textoSemFormatacao.trim().toDouble()
 //                    FORMANTANDO TEXTO EM ESTILO MOEDA
-                    var textoFormatado = NumberFormat.getCurrencyInstance().format(textoParaDecimal / 100)
+                    val textoFormatado = NumberFormat.getCurrencyInstance().format(textoParaDecimal / 100)
 
                     textoAtual = textoFormatado
 //                    SETANDO O TEXTO FORMATADO
@@ -174,12 +176,12 @@ class ThreeFragment : Fragment() {
 //                        DEFININDO LOCAL PADRAO DA MOEDA
                     val currency = Currency.getInstance(local)
 //                    RETIRANDO FORMATACAO DO TEXTO
-                    var textoSemFormatacao: String = p0.toString().replace("[${currency.symbol},.]".toRegex(), "")
+                    val textoSemFormatacao: String = p0.toString().replace("[${currency.symbol},.]".toRegex(), "")
 //                    CONVERTENDO TEXTO EM UM TIPO DOUBLE
 //                    RETIRANDO OS ESPACOS DO INICIO DA STRING
-                    var textoParaDecimal = textoSemFormatacao.trim().toDouble()
+                    val textoParaDecimal = textoSemFormatacao.trim().toDouble()
 //                    FORMANTANDO TEXTO EM ESTILO MOEDA
-                    var textoFormatado = NumberFormat.getCurrencyInstance().format(textoParaDecimal / 100)
+                    val textoFormatado = NumberFormat.getCurrencyInstance().format(textoParaDecimal / 100)
 
                     textoAtual = textoFormatado
 //                    SETANDO O TEXTO FORMATADO
@@ -212,12 +214,12 @@ class ThreeFragment : Fragment() {
 //                        DEFININDO LOCAL PADRAO DA MOEDA
                     val currency = Currency.getInstance(local)
 //                    RETIRANDO FORMATACAO DO TEXTO
-                    var textoSemFormatacao: String = p0.toString().replace("[${currency.symbol},.]".toRegex(), "")
+                    val textoSemFormatacao: String = p0.toString().replace("[${currency.symbol},.]".toRegex(), "")
 //                    CONVERTENDO TEXTO EM UM TIPO DOUBLE
 //                    RETIRANDO OS ESPACOS DO INICIO DA STRING
-                    var textoParaDecimal = textoSemFormatacao.trim().toDouble()
+                    val textoParaDecimal = textoSemFormatacao.trim().toDouble()
 //                    FORMANTANDO TEXTO EM ESTILO MOEDA
-                    var textoFormatado = NumberFormat.getCurrencyInstance().format(textoParaDecimal / 100)
+                    val textoFormatado = NumberFormat.getCurrencyInstance().format(textoParaDecimal / 100)
 
                     textoAtual = textoFormatado
 //                    SETANDO O TEXTO FORMATADO
@@ -236,52 +238,91 @@ class ThreeFragment : Fragment() {
             containerResultado.removeAllViews()
             esconderTeclado(btnLimparRevita)
 
-            edtSaldoDevido.setText("0,00")
+            edtSaldoDevido.setText(R.string.valor_vaio)
             edtNomeClienteA.setText("")
             edtNomeClienteB.setText("")
             edtNomeClienteC.setText("")
             edtNomeClienteD.setText("")
 
-            edtValorA.setText("0,00")
-            edtValorB.setText("0,00")
-            edtValorC.setText("0,00")
-            edtValorD.setText("0,00")
+            edtValorA.setText(R.string.valor_vaio)
+            edtValorB.setText(R.string.valor_vaio)
+            edtValorC.setText(R.string.valor_vaio)
+            edtValorD.setText(R.string.valor_vaio)
         }
 
         val btnCalcularRevita = threeView.findViewById<Button>(R.id.btn_calcular_revita)
-        btnCalcularRevita.setOnClickListener {
-            containerResultado.removeAllViews()
-            esconderTeclado(btnCalcularRevita)
-            if (edtSaldoDevido.text!!.isEmpty()) {
-                Snackbar.make(layout_principal, "Saldo devido está vazio!", Snackbar.LENGTH_LONG).show()
-            } else if (edtNomeClienteA.text!!.isEmpty()) {
-                edtNomeClienteA.setText("Cliente A")
-            } else if (edtNomeClienteB.text!!.isEmpty()) {
-                edtNomeClienteB.setText("Cliente B")
-            } else if (edtNomeClienteC.text!!.isEmpty()) {
-                edtNomeClienteC.setText("Cliente C")
-            } else if (edtNomeClienteD.text!!.isEmpty()) {
-                edtNomeClienteD.setText("Cliente D")
-            } else if (edtValorA.text!!.isEmpty()) {
-                edtValorA.setText(valorDeCampoVazio.toString())
-            } else if (edtValorB.text!!.isEmpty()) {
-                edtValorB.setText(valorDeCampoVazio.toString())
-            } else if (edtValorC.text!!.isEmpty()) {
-                edtValorC.setText(valorDeCampoVazio.toString())
-            } else if (edtValorD.text!!.isEmpty()) {
-                edtValorD.setText(valorDeCampoVazio.toString())
-            } else {
-                var valorA = transformaValor(edtValorA.text.toString())
-                var valorB = transformaValor(edtValorB.text.toString())
-                var valorC = transformaValor(edtValorC.text.toString())
-                var valorD = transformaValor(edtValorD.text.toString())
-                var valorSaldoDevido = transformaValor(edtSaldoDevido.text.toString())
-                var somaTotal = calculoSomaEmprestimoTotal(valorA, valorB, valorC, valorD)
 
-                var resultadoA = calculoRevita(somaTotal, valorSaldoDevido, valorA)
-                var resultadoB = calculoRevita(somaTotal, valorSaldoDevido, valorB)
-                var resultadoC = calculoRevita(somaTotal, valorSaldoDevido, valorC)
-                var resultadoD = calculoRevita(somaTotal, valorSaldoDevido, valorD)
+        btnCalcularRevita.setOnClickListener {
+
+            containerResultado.removeAllViews()
+
+            esconderTeclado(btnCalcularRevita)
+
+            var saldoDevidoLimpo: Boolean = false
+            var nomeAVaio: Boolean = false
+            var valorAVaio: Boolean = false
+            var nomeBVaio: Boolean = false
+            var valorBVaio: Boolean = false
+            var nomeCVaio: Boolean = false
+            var valorCVaio: Boolean = false
+            var nomeDVaio: Boolean = false
+            var valorDVaio: Boolean = false
+            var textoDevido = 0.0
+            if (edtSaldoDevido.text.toString().isNotBlank()) {
+                textoDevido = transformaValor(edtSaldoDevido.getText().toString())
+            }
+            if (edtSaldoDevido.text!!.isBlank() || (textoDevido.equals(0.0))) {
+                saldoDevidoLimpo = true
+            }
+            if (edtNomeClienteA.text!!.isBlank() || edtValorA.text!!.isBlank()) {
+                valorAVaio = true
+                nomeAVaio = true
+            }
+            if (edtNomeClienteB.text!!.isBlank() || edtValorB.text!!.isBlank()) {
+                nomeBVaio = true
+                valorBVaio = true
+            }
+            if (edtNomeClienteC.text!!.isBlank() || edtValorC.text!!.isBlank()) {
+                nomeCVaio = true
+                valorCVaio = true
+            }
+            if (edtNomeClienteD.text!!.isBlank() || edtValorD.text!!.isBlank()) {
+                nomeDVaio = true
+                valorDVaio = true
+
+            }
+
+            if (saldoDevidoLimpo &&
+                (nomeAVaio && valorAVaio) &&
+                (nomeBVaio && valorBVaio) &&
+                (nomeCVaio && valorCVaio) &&
+                (nomeDVaio && valorDVaio)
+            ) {
+                Snackbar.make(layout_principal, "TODOS OS CAMPOS ESTÃO VAZIOS!", Snackbar.LENGTH_LONG).show()
+            } else if (!saldoDevidoLimpo &&
+                (!nomeAVaio && !valorAVaio) &&
+                (!nomeBVaio && !valorBVaio) &&
+                (!nomeCVaio && !valorCVaio) &&
+                (!nomeDVaio && !valorDVaio)
+            ) {
+
+                val edtNomeA = edtNomeClienteA.text.toString()
+                val edtNomeB = edtNomeClienteB.text.toString()
+                val edtNomeC = edtNomeClienteC.text.toString()
+                val edtNomeD = edtNomeClienteD.text.toString()
+
+                val valorA = transformaValor(edtValorA.text.toString())
+                val valorB = transformaValor(edtValorB.text.toString())
+                val valorC = transformaValor(edtValorC.text.toString())
+                val valorD = transformaValor(edtValorD.text.toString())
+
+                val valorSaldoDevido = transformaValor(edtSaldoDevido.text.toString())
+                val somaTotal = calculoSomaEmprestimoQuatro(valorA, valorB, valorC, valorD)
+
+                val resultadoA = calculoRevita(somaTotal, valorSaldoDevido, valorA)
+                val resultadoB = calculoRevita(somaTotal, valorSaldoDevido, valorB)
+                val resultadoC = calculoRevita(somaTotal, valorSaldoDevido, valorC)
+                val resultadoD = calculoRevita(somaTotal, valorSaldoDevido, valorD)
 
                 val infla = getContext()?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -298,12 +339,13 @@ class ThreeFragment : Fragment() {
                 val valorRevitResultadoC = linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_valor_c)
                 val valorRevitResultadoD = linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_valor_d)
 
-                val valorTotalResultado = linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_valor_total)
+                val valorTotalResultado =
+                    linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_valor_total)
 
-                nomeRevitResultadoA.setText(edtNomeClienteA.text.toString())
-                nomeRevitResultadoB.setText(edtNomeClienteB.text.toString())
-                nomeRevitResultadoC.setText(edtNomeClienteC.text.toString())
-                nomeRevitResultadoD.setText(edtNomeClienteD.text.toString())
+                nomeRevitResultadoA.setText(edtNomeA)
+                nomeRevitResultadoB.setText(edtNomeB)
+                nomeRevitResultadoC.setText(edtNomeC)
+                nomeRevitResultadoD.setText(edtNomeD)
 
                 valorRevitResultadoA.setText(arredondar(resultadoA))
                 valorRevitResultadoB.setText(arredondar(resultadoB))
@@ -312,7 +354,7 @@ class ThreeFragment : Fragment() {
 
                 valorTotalResultado.setText(
                     arredondar(
-                        calculoSomaEmprestimoTotal(
+                        calculoSomaEmprestimoQuatro(
                             resultadoA,
                             resultadoB,
                             resultadoC,
@@ -322,9 +364,98 @@ class ThreeFragment : Fragment() {
                 )
 
                 containerResultado.addView(linhaResultadoRevita)
+            } else {
+                val textoValorA = transformaValor(edtValorA.text.toString())
+                if (saldoDevidoLimpo) {
+                    Snackbar.make(layout_principal, "SALDO DEVIDO VAZIO!", Snackbar.LENGTH_LONG).show()
+                } else if ((nomeAVaio || valorAVaio) || (textoValorA.equals(0.0))
+                ) {
+                    Snackbar.make(layout_principal, "NOME A OU VALOR A ESTÁ VAZIO!", Snackbar.LENGTH_LONG)
+                        .show()
+
+                } else {
+
+                    val edtNomeA = edtNomeClienteA.text.toString()
+                    var edtNomeB = "sem nome"
+                    var edtNomeC = "sem nome"
+                    var edtNomeD = "sem nome"
+
+                    if (!edtNomeClienteB.text.toString().isBlank()) {
+                        edtNomeB = edtNomeClienteB.text.toString()
+                    }
+                    if (!edtNomeClienteC.text.toString().isBlank()) {
+                        edtNomeC = edtNomeClienteC.text.toString()
+                    }
+                    if (!edtNomeClienteD.text.toString().isBlank()) {
+                        edtNomeD = edtNomeClienteD.text.toString()
+                    }
+
+                    val valorA = transformaValor(edtValorA.text.toString())
+                    var valorB = 0.0
+                    var valorC = 0.0
+                    var valorD = 0.0
+
+                    if (!edtValorB.text.toString().isBlank() || edtValorB.text.toString().compareTo("0,00") != 0) {
+                        valorB = transformaValor(edtValorB.text.toString())
+                    }
+                    if (!edtValorC.text.toString().isBlank() || edtValorC.text.toString().compareTo("0,00") != 0) {
+                        valorC = transformaValor(edtValorC.text.toString())
+                    }
+                    if (!edtValorD.text.toString().isBlank() || edtValorD.text.toString().compareTo("0,00") != 0) {
+                        valorD = transformaValor(edtValorD.text.toString())
+                    }
+
+                    val valorSaldoDevido = transformaValor(edtSaldoDevido.text.toString())
+
+                    val somaTotal = calculoSomaEmprestimoQuatro(valorA, valorB, valorC, valorD)
+
+                    val resultadoA = calculoRevita(somaTotal, valorSaldoDevido, valorA)
+                    val resultadoB = calculoRevita(somaTotal, valorSaldoDevido, valorB)
+                    val resultadoC = calculoRevita(somaTotal, valorSaldoDevido, valorC)
+                    val resultadoD = calculoRevita(somaTotal, valorSaldoDevido, valorD)
+
+                    val infla = getContext()?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+                    val linhaResultadoRevita =
+                        infla.inflate(R.layout.item_revitalizacao_resultado, containerResultado, false)
+
+                    val nomeRevitResultadoA = linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_nome_a)
+                    val nomeRevitResultadoB = linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_nome_b)
+                    val nomeRevitResultadoC = linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_nome_c)
+                    val nomeRevitResultadoD = linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_nome_d)
+
+                    val valorRevitResultadoA = linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_valor_a)
+                    val valorRevitResultadoB = linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_valor_b)
+                    val valorRevitResultadoC = linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_valor_c)
+                    val valorRevitResultadoD = linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_valor_d)
+
+                    val valorTotalResultado =
+                        linhaResultadoRevita.findViewById<TextView>(R.id.txt_res_revit_valor_total)
+
+                    nomeRevitResultadoA.setText(edtNomeA)
+                    nomeRevitResultadoB.setText(edtNomeB)
+                    nomeRevitResultadoC.setText(edtNomeC)
+                    nomeRevitResultadoD.setText(edtNomeD)
+
+                    valorRevitResultadoA.setText(arredondar(resultadoA))
+                    valorRevitResultadoB.setText(arredondar(resultadoB))
+                    valorRevitResultadoC.setText(arredondar(resultadoC))
+                    valorRevitResultadoD.setText(arredondar(resultadoD))
+
+                    valorTotalResultado.setText(
+                        arredondar(
+                            calculoSomaEmprestimoQuatro(
+                                resultadoA,
+                                resultadoB,
+                                resultadoC,
+                                resultadoD
+                            )
+                        )
+                    )
+                    containerResultado.addView(linhaResultadoRevita)
+                }
 
             }
-
         }
 
         return threeView
@@ -342,12 +473,12 @@ class ThreeFragment : Fragment() {
     }
 
     fun arredondar(valor: Double): String {
-        var v = DecimalFormat("R$ #,##0.00").format(valor)
+        val v = DecimalFormat("R$ #,##0.00").format(valor)
         return v
     }
 
-    fun calculoSomaEmprestimoTotal(v1: Double, v2: Double, v3: Double, v4: Double): Double {
-        var soma = v1 + v2 + v3 + v4
+    fun calculoSomaEmprestimoQuatro(v1: Double, v2: Double, v3: Double, v4: Double): Double {
+        val soma = v1 + v2 + v3 + v4
         return soma
     }
 
@@ -365,10 +496,10 @@ class ThreeFragment : Fragment() {
 //                        DEFININDO LOCAL PADRAO DA MOEDA
         val currency = Currency.getInstance(local)
 //                    RETIRANDO FORMATACAO DO TEXTO
-        var textoSemFormatacao: String = valor.replace("[${currency.symbol},.]".toRegex(), "")
+        val textoSemFormatacao: String = valor.replace("[${currency.symbol},.]".toRegex(), "")
 //                    CONVERTENDO TEXTO EM UM TIPO DOUBLE
 //                    RETIRANDO OS ESPACOS DO INICIO DA STRING
-        var textoParaDecimal = textoSemFormatacao.trim().toDouble() / 100
+        val textoParaDecimal = textoSemFormatacao.trim().toDouble() / 100
 
         return textoParaDecimal
     }
