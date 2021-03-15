@@ -163,20 +163,31 @@
 
                         <com.google.android.material.textfield.TextInputLayout android:layout_width="@dimen/dimen_field_value"
                                                                                android:layout_margin="10dp"
-                                                                               app:errorEnabled="true"
-                                                                               android:id="@+id/til_layout_quantidade_parcela"
-                                                                               app:errorTextColor="@color/colorAccent"
-                                                                               app:errorTextAppearance="@style/TextAppearance.AppCompat.Small"
+                                                                               android:id="@+id/til_layout_valor_parcela"
+                                                                               android:layout_gravity="center"
+                                                                               android:layout_height="wrap_content">
+
+                            <com.google.android.material.textfield.TextInputEditText android:layout_width="@dimen/dimen_field_value"
+                                                                                     android:id="@+id/edt_valor_parcela"
+                                                                                     android:hint="Valor da Parcela"
+                                                                                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                                                                     android:inputType="numberDecimal"
+                                                                                     android:layout_height="wrap_content"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout android:layout_width="@dimen/dimen_field_value"
+                                                                               android:layout_margin="10dp"
+                                                                               android:id="@+id/til_layout_quantidade_parcelas"
                                                                                android:layout_gravity="center"
                                                                                app:counterMaxLength="2"
                                                                                app:counterEnabled="true"
                                                                                android:layout_height="wrap_content">
 
                             <com.google.android.material.textfield.TextInputEditText android:layout_width="@dimen/dimen_field_value"
-                                                                                     android:id="@+id/edt_quantidade_parcelas"
+                                                                                     android:id="@+id/edt_quantidade_parcela"
                                                                                      android:hint="Qtde de Parcelas"
                                                                                      android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                                                                                     android:inputType="number"
+                                                                                     android:inputType="numberDecimal"
                                                                                      android:maxLength="2"
                                                                                      android:layout_height="wrap_content"/>
                         </com.google.android.material.textfield.TextInputLayout>
