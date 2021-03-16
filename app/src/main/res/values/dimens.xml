@@ -3,5 +3,7 @@
 
     <dimen name="dimen_field_name">150dp</dimen>
     <dimen name="dimen_field_value">150dp</dimen>
+    <dimen name="largura_campo_res_dist">90dp</dimen>
+    <dimen name="espaco_dentro_campo_res_dist">2dp</dimen>
 
 </resources>
