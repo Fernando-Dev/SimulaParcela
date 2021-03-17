@@ -395,13 +395,13 @@ class ThreeFragment : Fragment() {
                     var valorC = 0.0
                     var valorD = 0.0
 
-                    if (!edtValorB.text.toString().isBlank() || edtValorB.text.toString().compareTo("0,00") != 0) {
+                    if (!edtValorB.text.toString().isBlank() || valorB != 0.0) {
                         valorB = transformaValor(edtValorB.text.toString())
                     }
-                    if (!edtValorC.text.toString().isBlank() || edtValorC.text.toString().compareTo("0,00") != 0) {
+                    if (!edtValorC.text.toString().isBlank() || valorC != 0.0) {
                         valorC = transformaValor(edtValorC.text.toString())
                     }
-                    if (!edtValorD.text.toString().isBlank() || edtValorD.text.toString().compareTo("0,00") != 0) {
+                    if (!edtValorD.text.toString().isBlank() || valorD != 0.0) {
                         valorD = transformaValor(edtValorD.text.toString())
                     }
 

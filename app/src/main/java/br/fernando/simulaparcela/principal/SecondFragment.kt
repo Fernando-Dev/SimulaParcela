@@ -299,19 +299,27 @@ class SecondFragment : Fragment() {
                 ))
             ) {
                 Snackbar.make(layout_principal, "NOME B OU VALOR B ESTÁ VAZIO", Snackbar.LENGTH_LONG).show()
-            } else if (txtNomeC.text.toString().isBlank() || edtValorC.text.toString().isBlank() || (txtValorC.equals(
+            } else if ((txtNomeC.text.toString().isBlank() || edtValorC.text.toString().isBlank() || (txtValorC.equals(
                     0.0
-                ))
-            ) {
-                Snackbar.make(layout_principal, "NOME C OU VALOR C ESTÁ VAZIO", Snackbar.LENGTH_LONG).show()
-            } else if (txtNomeD.text.toString().isBlank() || edtValorD.text.toString().isBlank() || (txtValorD.equals(
+                ))) || (txtNomeD.text.toString().isBlank() || edtValorD.text.toString().isBlank() || (txtValorD.equals(
                     0.0
-                ))
+                )))
             ) {
-                Snackbar.make(layout_principal, "NOME D OU VALOR D ESTÁ VAZIO", Snackbar.LENGTH_LONG).show()
-            } else if (edtValorParcela.text.toString().isBlank() || (txtValorParcela.equals(0.0))) {
+                if (txtNomeC.text.toString().isBlank()) {
+                    txtNomeC.setText("vazio")
+                }
+                if (edtValorC.text.toString().isBlank() || txtValorC.equals(0.0)) {
+                    edtValorC.setText("0,00")
+                }
+                if (txtNomeD.text.toString().isBlank()) {
+                    txtNomeD.setText("vazio")
+                }
+                if (edtValorD.text.toString().isBlank() || txtValorD.equals(0.0)) {
+                    edtValorD.setText("0,00")
+                }
+            }else if (edtValorParcela.text.toString().isBlank() || (txtValorParcela.equals(0.0))) {
                 Snackbar.make(layout_principal, "VALOR DA PARCELA ESTÁ VAZIO", Snackbar.LENGTH_LONG).show()
-            }else if(edtQtdeParcela.text.toString().isBlank()){
+            } else if (edtQtdeParcela.text.toString().isBlank()) {
                 Snackbar.make(layout_principal, "QUANTIDADE DE PARCELAS ESTÁ VAZIA", Snackbar.LENGTH_LONG).show()
             } else {
 
@@ -393,22 +401,22 @@ class SecondFragment : Fragment() {
                     val clipBoardManager =
                         getContext()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     val textoCopiado =
-                        "Cliente: " + "${nomeDistResultadoA.text}" +" -> "+
-                                "Valor: " + "${valorDistResultadoA.text}" +" -> "+
+                        "Cliente: " + "${nomeDistResultadoA.text}" + " -> " +
+                                "Valor: " + "${valorDistResultadoA.text}" + " -> " +
                                 "Parcela: " + "${parcelaDistResultadoA.text}" + "\n" +
-                                "---------------------------------------"+"\n"+
-                                "Cliente: " + "${nomeDistResultadoB.text}" +" -> "+
-                                "Valor: " + "${valorDistResultadoB.text}" +" -> "+
+                                "---------------------------------------" + "\n" +
+                                "Cliente: " + "${nomeDistResultadoB.text}" + " -> " +
+                                "Valor: " + "${valorDistResultadoB.text}" + " -> " +
                                 "Parcela: " + "${parcelaDistResultadoB.text}" + "\n" +
-                                "---------------------------------------"+"\n"+
-                                "Cliente: " + "${nomeDistResultadoC.text}" +" -> "+
-                                "Valor: " + "${valorDistResultadoC.text}" +" -> "+
+                                "---------------------------------------" + "\n" +
+                                "Cliente: " + "${nomeDistResultadoC.text}" + " -> " +
+                                "Valor: " + "${valorDistResultadoC.text}" + " -> " +
                                 "Parcela: " + "${parcelaDistResultadoC.text}" + "\n" +
-                                "---------------------------------------"+"\n"+
-                                "Cliente: " + "${nomeDistResultadoD.text}" +" -> "+
-                                "Valor: " + "${valorDistResultadoD.text}" +" -> "+
+                                "---------------------------------------" + "\n" +
+                                "Cliente: " + "${nomeDistResultadoD.text}" + " -> " +
+                                "Valor: " + "${valorDistResultadoD.text}" + " -> " +
                                 "Parcela: " + "${parcelaDistResultadoD.text}" + "\n" +
-                                "---------------------------------------"+"\n"+
+                                "---------------------------------------" + "\n" +
                                 "Qtde Parcelas: " + "${qtdeParcelas.text}" + "\n" +
                                 "Valor da Parcela: " + "${valorTotalParcela.text}" + "\n" +
                                 "Valor Total: " + "${valorTotalEmprestimo.text}"
@@ -427,12 +435,8 @@ class SecondFragment : Fragment() {
 
             }
 
+
         }
-
-
-
-
-
 
         return secondView
     }
