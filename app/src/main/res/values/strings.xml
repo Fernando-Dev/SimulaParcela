@@ -4,5 +4,6 @@
     <string name="radio_grupo">Grupo</string>
     <string name="radio_individual">Individual</string>
     <string name="valor_vaio">0,00</string>
+    <string name="copy_right" translatable="false">Fernando Nascimento © %1$d</string>
 
 </resources>
